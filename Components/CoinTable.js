@@ -29,14 +29,20 @@ const CoinTable = () => {
     const navigate = useNavigate();
 
     const fetchCoins = async ()=>{
+        try {
         setLoading(true)
         const {data} = await axios.get(CoinList(currency));
         setCoin(data)
         setLoading(false);
+            
+        } catch (error) {
+            console.log('Error', error)
+        }
 
     }
     useEffect(() => {
-      fetchCoins();
+        fetchCoins();
+        
     }, [currency])
     
     const darkTheme = createTheme({
@@ -63,10 +69,18 @@ const CoinTable = () => {
             >
                 Cryptocurrency Prices by Market Cap
             </Typography>
-            <TextField label='Search For a Crypto Currency' 
-            variant='outlined'
+            {/* <TextField label='Search For a Crypto Currency..' 
+            // variant="outlined"
             style={{marginBottom:20,width:'100%'}} 
-            />
+            variant="outlined"
+
+            /> */}
+            <TextField
+          label="Search For a Crypto Currency.."
+          variant="outlined"
+          style={{ marginBottom: 20, width: "100%" }}
+          onChange={(e) => setSearch(e.target.value)}
+        />
             <TableContainer >
                 {
                     loading ? (
@@ -76,9 +90,9 @@ const CoinTable = () => {
                             <TableHead style={{backgroundColor:"#EEBC1D"}}>
                                 <TableRow>
                                     {['Coin','Price','24h Change','Market Cap'].map(head=>(
-                                        <TableCell
+                                        <TableCell key={head}
                                         style={{color:'black',fontWeight:700}}
-                                        align={head === 'Coin' ? '': 'right'}
+                                        align={head === 'Coin' ? 'inherit': 'right'}
                                         >
                                             {head}
                                         </TableCell>
@@ -144,7 +158,7 @@ const CoinTable = () => {
             justifyContent:'center'
         }}
         classes={{ul:classes.pagination}}
-        count={(handleSearch()?.length/10).toFixed(0)}
+        count={Number((handleSearch()?.length/10).toFixed(0))}
         onChange = {(_,value)=>{
             setPage(value)
             window.scroll(0,450)

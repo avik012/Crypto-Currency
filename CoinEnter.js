@@ -10,7 +10,8 @@ import CryptoContext from './CoinContext/CryptoContext'
 const useStyles = makeStyles(()=>({
   CoinCurrency:{
       color:'white',
-      backgroundColor:'#14161a'
+      backgroundColor:'#14161a',
+      minHeight:'100vh'
   }
 }))
 const CoinEnter = () => {
